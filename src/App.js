@@ -8,6 +8,7 @@ const contractAddress = "0xF786878156D6d0964CA078D8EB3D7fC89D25d6C2";
 
 function App() {
 
+
   const [currentAccount, setCurrentAccount] = useState(null);
 
   const checkWalletIsConnected = async () => {
@@ -62,7 +63,7 @@ function App() {
         console.log("Mining... please wait");
         await nftTxn.wait();
 
-        console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
+        console.log("Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}");
 
       } else {
         console.log("Ethereum object does not exist");
@@ -95,11 +96,152 @@ function App() {
 
   return (
     <div className='main-app'>
-      <h1>Envoyez vos voeux</h1>
-      <div>
+      <div class="snowflakes" aria-hidden="flase">  
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+        <div class="snowflake">
+        ❅ 
+        </div>
+      </div>
+
+      <div id="header">  
+    <h1>HO HO HO</h1>
+    <h2>C'est la fin de l'année... Les fêtes approchent et le Bitcoin est au plus bas. Vous n'avez plus aucun Ethere dans vos poches...</h2>
+    <h2>Offrez des <b>NFT</b> pour NOEL! C'est a la mode et tout le monde pense que ca coute super cher</h2>
+</div>
+
+
+<div id="megaform" >  
+
+<div id="form1" >  
+    <h3>Etape 1 : Créez le NFT!</h3>
+
+    <p>Donnez un nom à votre cadeau!</p> 
+    <input type="text" id="fname" placeholder="Nom du cadeau"></input>
+
+    <p>Quelle message voulez vous lui dire?</p>
+    <input type="text" id="fmessage" placeholder="Message"></input>
+
+    <p>Entrez l'URL de l'image que vous voulez offrire!</p>
+    <input type="text" id="fimg" placeholder="Lien Image"></input>
+
+    <br></br>
+    <button type="button" id="mybutton">Etape suivante!</button> 
+    <br></br>
+</div>
+
+
+<div id="form2"> 
+<h3>Etape 2 : Emballez le NFT!</h3>
+
+<div id="jsontext">
+
+    <h4>"title": "Asset Metadata",</h4>   
+    <h4> "type": "object"  ,</h4> 
+        <h4></h4>
+            <h4> "type": "string",</h4>          
+            <h4> "description": "<a id="modnom">Nom</a>"</h4>       
+
+                <h4>"type": "string",</h4>          
+                <h4>"description": "<a id="modmess">Message</a>"</h4>          
+   
+                    <h4>"type": "string",</h4>         
+                    <h4> "description": "<a id="modurl">URL</a>"</h4>        
+                  
+</div>
+
+    <button type="button" id="mybutton" onclick="copyDivToClipboard()">Copier le texte</button> 
+
+    <p>Après avoir copié le texte, le coller sur la page JSON KEPPER et récuperer le lien</p>
+   
+    <form action="https://www.jsonkeeper.com" method="get" target="_blank">  
+        <button type="submit">Aller sur Json keeper</button>
+     </form>
+    <br></br>
+
+    </div >
+
+    <div id="form3" > 
+    <h3>Etape 3 : Offrez le NFT!</h3>
+
+    <p>Quelle est votre clée?</p>
+    <input type="text" id="fcled" placeholder="Votre Clée"></input>
+
+    <p>Quelle est la clé du destinataire?</p>
+    <input type="text" id="fcler" placeholder="Clée du Destinataire"></input>
+
+    <p>Quelle est le lien que vous avez obtenu?</p>
+    <input type="text" id="flienjson" placeholder="Clée du Destinataire"></input>
+
+    <br></br>
+    <button type="button" id="mybuttonfinal">Envoyer le Cadeau!</button>
+    <br></br>
+    <h3>Enfin, cliquez sur le gros bouton!</h3>
+    <div>
         {currentAccount ? mintNftButton() : connectWalletButton()}
       </div>
     </div>
+ 
+</div>
+
+
+      
+</div>
   )
 }
 
