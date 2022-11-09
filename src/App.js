@@ -193,7 +193,7 @@ function App() {
 
     <h4>"title": "Asset Metadata",</h4>   
     <h4> "type": "object"  ,</h4> 
-        <h4></h4>
+        <h4> "properties": {"{"}</h4>
             <h4> "type": "string",</h4>          
             <h4> "description": "<a id="modnom">Nom</a>"</h4>       
 
