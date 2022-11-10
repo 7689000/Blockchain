@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react';
+import {useRef} from 'react';
 import './App.css';
 
 import abi from './contracts/ABI.json';
 import { ethers } from 'ethers';
 
 const contractAddress = "0xF786878156D6d0964CA078D8EB3D7fC89D25d6C2";
+var cleune;
+var cledeux;
+var lien;
+
 
 function App() {
 
+
+ 
 
   const [currentAccount, setCurrentAccount] = useState(null);
 
@@ -48,6 +55,43 @@ function App() {
     }
   }
 
+ function resultats(){ 
+
+    var name = document.getElementById("fname").value;
+    var message = document.getElementById("fmessage").value;
+    var lien = document.getElementById("fimg").value;
+
+    document.getElementById("modnom").innerHTML=name;
+    document.getElementById("modmess").innerHTML=message;
+    document.getElementById("modurl").innerHTML=lien;
+}
+
+
+  function copiercoller(){
+    
+      var range = document.createRange();
+      range.selectNode(document.getElementById("jsontext"));
+      window.getSelection().removeAllRanges(); // clear current selection
+      window.getSelection().addRange(range); // to select text
+      document.execCommand("copy");
+      window.getSelection().removeAllRanges();// to deselect
+  
+  }
+
+  const cleenvoyeur = useRef(null);
+  const clereceveur = useRef(null);
+  const lelien = useRef(null);
+
+  function handleClick() {
+    cleune = cleenvoyeur.current.value;
+    cledeux = clereceveur.current.value;
+    lien = lelien.current.value;
+
+    console.log(cleune);
+    console.log(cledeux);
+    console.log(lien);
+  }
+
   const mintNftHandler = async () => {
     try {
       const { ethereum } = window;
@@ -58,7 +102,7 @@ function App() {
         const nftContract = new ethers.Contract(contractAddress, abi, signer);
 
         console.log("Initialize payment");
-        let nftTxn = await nftContract.safeMint("0xeF607f7db89b9E3450B80C5C0D280b2299989231","0x7c0bE6FfDB66b42D51Ca3782A13267769bcAeEb5","https://jsonkeeper.com/b/HHEY");
+        let nftTxn = await nftContract.safeMint(cleune,cledeux,lien);
 
         console.log("Mining... please wait");
         await nftTxn.wait();
@@ -90,9 +134,15 @@ function App() {
     )
   }
 
-  useEffect(() => {
-    checkWalletIsConnected();
-  }, [])
+
+
+    useEffect(() => {
+      checkWalletIsConnected();
+    }, [])
+  
+
+
+  
 
   return (
     <div className='main-app'>
@@ -181,7 +231,7 @@ function App() {
     <input type="text" id="fimg" placeholder="Lien Image"></input>
 
     <br></br>
-    <button type="button" id="mybutton">Etape suivante!</button> 
+    <button type="button" id="mybutton" onClick={resultats}>Etape suivante!</button>
     <br></br>
 </div>
 
@@ -189,24 +239,34 @@ function App() {
 <div id="form2"> 
 <h3>Etape 2 : Emballez le NFT!</h3>
 
+
+
 <div id="jsontext">
-
-    <h4>"title": "Asset Metadata",</h4>   
-    <h4> "type": "object"  ,</h4> 
-        <h4> "properties": {"{"}</h4>
-            <h4> "type": "string",</h4>          
-            <h4> "description": "<a id="modnom">Nom</a>"</h4>       
-
-                <h4>"type": "string",</h4>          
-                <h4>"description": "<a id="modmess">Message</a>"</h4>          
-   
-                    <h4>"type": "string",</h4>         
-                    <h4> "description": "<a id="modurl">URL</a>"</h4>        
+    <h4>{"{"}</h4>
+    <h4>  "title": "Asset Metadata",</h4>   
+    <h4>  "type": "object"  ,</h4> 
+        <h4>  "properties": {"{"}</h4>
+        <h4>    "name": {"{"}</h4>
+            <h4>     "type": "string",</h4>          
+            <h4>      "description": "<a id="modnom">Nom</a>"</h4>
+        <h4>{   "}"},</h4>    
+        <h4>    "description":{"{"}</h4>       
+                <h4>      "type": "string",</h4>          
+                <h4>      "description": "<a id="modmess">Message</a>"</h4>          
+        <h4>{   "}"},</h4>
+        <h4>    "image": {"{"}</h4>
+                    <h4>      "type": "string",</h4>         
+                    <h4>      "description": "<a id="modurl">URL</a>"</h4>     
+            <h4>{   "}"}</h4>
+            <h4>{ "}"}</h4>
+            <h4>{"}"}</h4>
                   
-</div>
+</div>     
+                  
 
-    <button type="button" id="mybutton" onclick="copyDivToClipboard()">Copier le texte</button> 
+    <button type="button" id="mybutton" onClick={copiercoller}>Copier le texte</button> 
 
+   
     <p>Après avoir copié le texte, le coller sur la page JSON KEPPER et récuperer le lien</p>
    
     <form action="https://www.jsonkeeper.com" method="get" target="_blank">  
@@ -216,28 +276,41 @@ function App() {
 
     </div >
 
-    <div id="form3" > 
+  
+    
+
+    <div id="form3">
+
     <h3>Etape 3 : Offrez le NFT!</h3>
 
-    <p>Quelle est votre clée?</p>
-    <input type="text" id="fcled" placeholder="Votre Clée"></input>
+        <p>Quelle est le lien que vous avez obtenu?</p>
+        <input ref={lelien} type="text" id="unlien" name="message" placeholder='Lien JSON KEEPER'/>
 
-    <p>Quelle est la clé du destinataire?</p>
-    <input type="text" id="fcler" placeholder="Clée du Destinataire"></input>
 
-    <p>Quelle est le lien que vous avez obtenu?</p>
-    <input type="text" id="flienjson" placeholder="Clée du Destinataire"></input>
+        <p>Quelle est votre clée?</p>
+        <input ref={cleenvoyeur} type="text" id="cleenv" name="message" placeholder='Votre clée'/>
 
-    <br></br>
-    <button type="button" id="mybuttonfinal">Envoyer le Cadeau!</button>
-    <br></br>
-    <h3>Enfin, cliquez sur le gros bouton!</h3>
-    <div>
+        <p>Quelle est la clé du destinataire?</p>
+        <input ref={clereceveur} type="text" id="clere" name="message" placeholder='Clée destinataire'/>
+
+        
+        <br/>
+        <button onClick={handleClick}>Envoyez les INFOS</button>
+
+
+        <h3>Enfin, cliquez sur le gros bouton!</h3>
+
+  
+      <div>
         {currentAccount ? mintNftButton() : connectWalletButton()}
       </div>
     </div>
+    </div>
+
+    
+
  
-</div>
+
 
 
       
